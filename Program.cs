@@ -12,6 +12,17 @@ namespace JurasicPark
         public int Weight { get; set; }
         public int EnclosureNumber { get; set; }
 
+        public void Description()
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Name: {Name}");
+            Console.WriteLine($"Diet Type: {DietType}");
+            Console.WriteLine($"Date Acquired: {WhenAcquired}");
+            Console.WriteLine($"Weight: {Weight}lbs");
+            Console.WriteLine($"Enclosure Number: {EnclosureNumber}");
+            Console.WriteLine();
+        }
+
 
     }
 
@@ -43,6 +54,8 @@ namespace JurasicPark
 
             return foundDino;
         }
+
+
         static void Main(string[] args)
         {
 
@@ -76,83 +89,96 @@ namespace JurasicPark
 
             BannerMessage("Welcome to Jurassic Park!");
 
-            Console.WriteLine();
-            Console.WriteLine("Menu:");
-            Console.WriteLine();
-            Console.WriteLine("View");
-            Console.WriteLine("Add");
-            Console.WriteLine("Remove");
-            Console.WriteLine("Transfer");
-            Console.WriteLine("Summary");
-            Console.WriteLine("Quit");
-            Console.WriteLine();
+            var userHasChosenToQuit = false;
 
-            var userResponse = PromptForString("Which option would you like to choose?");
-
-            if (userResponse == "View")
+            while (userHasChosenToQuit == false)
             {
-                var orderedDinosaurs = dinosaurs.OrderBy(x => x.WhenAcquired);
-                foreach (var dino in orderedDinosaurs)
+                Console.WriteLine();
+                Console.WriteLine("Menu:");
+                Console.WriteLine();
+                Console.WriteLine("View");
+                Console.WriteLine("Add");
+                Console.WriteLine("Remove");
+                Console.WriteLine("Transfer");
+                Console.WriteLine("Summary");
+                Console.WriteLine("Quit");
+                Console.WriteLine();
+
+                var userResponse = PromptForString("Which option would you like to choose?");
+
+                if (userResponse == "View")
                 {
-                    Console.Write(dino.Name);
+                    if (dinosaurs.Count == 0)
+                    {
+                        Console.WriteLine("There are no dinosaurs in the park.");
+                    }
+                    else
+                    {
+                        var orderedDinosaurs = dinosaurs.OrderBy(x => x.WhenAcquired);
+                        foreach (var dino in orderedDinosaurs)
+                        {
+                            dino.Description();
+                        }
+                    }
+                }
+
+
+                if (userResponse == "Add")
+                {
+                    Console.Write("What is the name? ");
+                    var newDinoName = Console.ReadLine();
+
+                    Console.Write("What is the diet type? ");
+                    var newDinoDietType = Console.ReadLine();
+
+                    var newWhenAcquired = DateTime.Now;
+
+                    Console.Write("What is the dinosaurs weight? ");
+                    var newDinoWeightString = Console.ReadLine();
+                    var newDinoWeight = int.Parse(newDinoWeightString);
+
+                    Console.Write("What is the enclosure number? ");
+                    var newEnclosureNumberString = Console.ReadLine();
+                    var newEnclosureNumber = int.Parse(newEnclosureNumberString);
+
+
+                    var newDino = new Dino()
+                    {
+                        Name = newDinoName,
+                        DietType = newDinoDietType,
+                        WhenAcquired = newWhenAcquired,
+                        Weight = newDinoWeight,
+                        EnclosureNumber = newEnclosureNumber,
+                    };
+
+                    dinosaurs.Add(newDino);
+
+                }
+                if (userResponse == "Remove")
+                {
+                    var removedDino = PromptAndFindDino(dinosaurs);
+                    dinosaurs.Remove(removedDino);
+
+                }
+                if (userResponse == "Transfer")
+                {
+                    var transferDinoName = PromptAndFindDino(dinosaurs);
+                    var newEnclosureNum = PromptForString("What is this dinosaurs new enclosure number?");
+                    transferDinoName.EnclosureNumber = int.Parse(newEnclosureNum);
+                }
+                if (userResponse == "Summary")
+                {
+                    var numOfHerb = dinosaurs.Count(x => x.DietType == "Herbivore");
+                    var numOfCarn = dinosaurs.Count(x => x.DietType == "Carnivore");
+
+                    Console.Write($"There are {numOfHerb} herbivores and {numOfCarn} carnivores in the park.");
+                }
+                if (userResponse == "Quit")
+                {
+                    userHasChosenToQuit = true;
                 }
             }
-            else if (userResponse == "View" && dinosaurs.Count == 0)
-            {
-                return Console.WriteLine("There are no dinosaurs in the park.");
-            };
 
-            if (userResponse == "Add")
-            {
-                Console.Write("What is the name? ");
-                var newDinoName = Console.ReadLine();
-
-                Console.Write("What is the diet type? ");
-                var newDinoDietType = Console.ReadLine();
-
-                Console.Write("When was the dinosaur acquired? ");
-                var newWhenAcquired = DateTime();
-
-                Console.Write("What is the dinosaurs weight? ");
-                var newDinoWeightString = Console.ReadLine();
-                var newDinoWeight = int.Parse(newDinoWeightString);
-
-                Console.Write("What is the enclosure number? ");
-                var newEnclosureNumberString = Console.ReadLine();
-                var newEnclosureNumber = int.Parse(newEnclosureNumberString);
-
-
-                var newDino = new Dino()
-                {
-                    Name = newDinoName,
-                    DietType = newDinoDietType,
-                    WhenAcquired = newWhenAcquired,
-                    Weight = newDinoWeight,
-                    EnclosureNumber = newEnclosureNumber,
-                };
-
-                dinosaurs.Add(newDino);
-
-            }
-            if (userResponse == "Remove")
-            {
-                var removedDino = PromptAndFindDino(dinosaurs);
-                dinosaurs.Remove(removedDino);
-
-            }
-            if (userResponse == "Transfer")
-            {
-                var transferDinoName = PromptAndFindDino(dinosaurs);
-                var newEnclosureNum = PromptForString("What is this dinosaurs new enclosure number?");
-                transferDinoName.EnclosureNumber = int.Parse(newEnclosureNum);
-            }
-            if (userResponse == "Summary")
-            {
-                var numOfHerb = dinosaurs.Count(x => x.DietType == "Herbivore");
-                var numOfCarn = dinosaurs.Count(x => x.DietType == "Carnivores");
-
-                Console.Write($"There are {numOfHerb} herbivores and {numOfCarn} carnivores in the park.");
-            }
             BannerMessage("Goodbye!");
 
         }
