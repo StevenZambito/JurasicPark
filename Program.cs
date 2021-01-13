@@ -18,7 +18,7 @@ namespace JurasicPark
             Console.WriteLine($"Name: {Name}");
             Console.WriteLine($"Diet Type: {DietType}");
             Console.WriteLine($"Date Acquired: {WhenAcquired}");
-            Console.WriteLine($"Weight: {Weight}lbs");
+            Console.WriteLine($"Weight: {Weight} lbs");
             Console.WriteLine($"Enclosure Number: {EnclosureNumber}");
             Console.WriteLine();
         }
@@ -42,7 +42,7 @@ namespace JurasicPark
         {
             Console.WriteLine(prompt);
 
-            var userInput = Console.ReadLine();
+            var userInput = Console.ReadLine().ToUpper().Trim();
             return userInput;
         }
 
@@ -50,7 +50,7 @@ namespace JurasicPark
         {
             var nameOfDino = PromptForString("What is the name of the Dinosaur you are looking for? ");
 
-            var foundDino = listOfDinosToSearch.Find(dino => dino.Name == nameOfDino);
+            var foundDino = listOfDinosToSearch.Find(dino => dino.Name.ToUpper() == nameOfDino);
 
             return foundDino;
         }
@@ -106,7 +106,7 @@ namespace JurasicPark
 
                 var userResponse = PromptForString("Which option would you like to choose?");
 
-                if (userResponse == "View")
+                if (userResponse == "VIEW")
                 {
                     if (dinosaurs.Count == 0)
                     {
@@ -123,22 +123,23 @@ namespace JurasicPark
                 }
 
 
-                if (userResponse == "Add")
+                if (userResponse == "ADD")
                 {
-                    Console.Write("What is the name? ");
-                    var newDinoName = Console.ReadLine();
+                    Console.WriteLine();
+                    Console.Write("What is the name of the dinosaur? ");
+                    var newDinoName = Console.ReadLine().Trim();
 
-                    Console.Write("What is the diet type? ");
-                    var newDinoDietType = Console.ReadLine();
+                    Console.Write($"What is {newDinoName}'s diet type? ");
+                    var newDinoDietType = Console.ReadLine().Trim();
 
                     var newWhenAcquired = DateTime.Now;
 
-                    Console.Write("What is the dinosaurs weight? ");
-                    var newDinoWeightString = Console.ReadLine();
+                    Console.Write($"What is {newDinoName}'s weight? ");
+                    var newDinoWeightString = Console.ReadLine().Trim();
                     var newDinoWeight = int.Parse(newDinoWeightString);
 
-                    Console.Write("What is the enclosure number? ");
-                    var newEnclosureNumberString = Console.ReadLine();
+                    Console.Write($"What is {newDinoName}'s enclosure number? ");
+                    var newEnclosureNumberString = Console.ReadLine().Trim();
                     var newEnclosureNumber = int.Parse(newEnclosureNumberString);
 
 
@@ -154,26 +155,32 @@ namespace JurasicPark
                     dinosaurs.Add(newDino);
 
                 }
-                if (userResponse == "Remove")
+                if (userResponse == "REMOVE")
                 {
                     var removedDino = PromptAndFindDino(dinosaurs);
                     dinosaurs.Remove(removedDino);
+                    Console.WriteLine();
+                    Console.WriteLine($"{removedDino.Name} has been removed from the park.");
 
                 }
-                if (userResponse == "Transfer")
+                if (userResponse == "TRANSFER")
                 {
                     var transferDinoName = PromptAndFindDino(dinosaurs);
                     var newEnclosureNum = PromptForString("What is this dinosaurs new enclosure number?");
                     transferDinoName.EnclosureNumber = int.Parse(newEnclosureNum);
+                    Console.WriteLine();
+                    Console.WriteLine($"{transferDinoName.Name} has been transferred to enclosure number {transferDinoName.EnclosureNumber}.");
+                    Console.WriteLine();
                 }
-                if (userResponse == "Summary")
+                if (userResponse == "SUMMARY")
                 {
                     var numOfHerb = dinosaurs.Count(x => x.DietType == "Herbivore");
                     var numOfCarn = dinosaurs.Count(x => x.DietType == "Carnivore");
-
+                    Console.WriteLine();
                     Console.Write($"There are {numOfHerb} herbivores and {numOfCarn} carnivores in the park.");
+                    Console.WriteLine();
                 }
-                if (userResponse == "Quit")
+                if (userResponse == "QUIT")
                 {
                     userHasChosenToQuit = true;
                 }
