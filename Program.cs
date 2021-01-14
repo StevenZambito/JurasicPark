@@ -58,8 +58,8 @@ namespace JurasicPark
 
         static void Main(string[] args)
         {
-
             var dinosaurs = new List<Dino>() {
+
             new Dino()
             {
               Name = "Rex",
