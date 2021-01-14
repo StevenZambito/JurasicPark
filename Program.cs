@@ -22,8 +22,6 @@ namespace JurasicPark
             Console.WriteLine($"Enclosure Number: {EnclosureNumber}");
             Console.WriteLine();
         }
-
-
     }
 
 
@@ -49,7 +47,6 @@ namespace JurasicPark
         static Dino PromptAndFindDino(List<Dino> listOfDinosToSearch)
         {
             var nameOfDino = PromptForString("What is the name of the Dinosaur you are looking for? ");
-
             var foundDino = listOfDinosToSearch.Find(dino => dino.Name.ToUpper() == nameOfDino);
 
             return foundDino;
@@ -122,7 +119,6 @@ namespace JurasicPark
                     }
                 }
 
-
                 if (userResponse == "ADD")
                 {
                     Console.WriteLine();
@@ -142,7 +138,6 @@ namespace JurasicPark
                     var newEnclosureNumberString = Console.ReadLine().Trim();
                     var newEnclosureNumber = int.Parse(newEnclosureNumberString);
 
-
                     var newDino = new Dino()
                     {
                         Name = newDinoName,
@@ -153,8 +148,8 @@ namespace JurasicPark
                     };
 
                     dinosaurs.Add(newDino);
-
                 }
+
                 if (userResponse == "REMOVE")
                 {
                     var removedDino = PromptAndFindDino(dinosaurs);
@@ -163,6 +158,7 @@ namespace JurasicPark
                     Console.WriteLine($"{removedDino.Name} has been removed from the park.");
 
                 }
+
                 if (userResponse == "TRANSFER")
                 {
                     var transferDinoName = PromptAndFindDino(dinosaurs);
@@ -172,6 +168,7 @@ namespace JurasicPark
                     Console.WriteLine($"{transferDinoName.Name} has been transferred to enclosure number {transferDinoName.EnclosureNumber}.");
                     Console.WriteLine();
                 }
+
                 if (userResponse == "SUMMARY")
                 {
                     var numOfHerb = dinosaurs.Count(x => x.DietType == "Herbivore");
@@ -180,6 +177,7 @@ namespace JurasicPark
                     Console.Write($"There are {numOfHerb} herbivores and {numOfCarn} carnivores in the park.");
                     Console.WriteLine();
                 }
+
                 if (userResponse == "QUIT")
                 {
                     userHasChosenToQuit = true;
