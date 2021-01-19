@@ -24,7 +24,6 @@ namespace JurasicPark
         }
     }
 
-
     class Program
     {
         static void BannerMessage(string message)
@@ -171,10 +170,10 @@ namespace JurasicPark
 
                 if (userResponse == "SUMMARY")
                 {
-                    var numOfHerb = dinosaurs.Count(x => x.DietType == "Herbivore");
-                    var numOfCarn = dinosaurs.Count(x => x.DietType == "Carnivore");
+                    var numberOfHerbivores = dinosaurs.Count(dinosaur => dinosaur.DietType == "Herbivore");
+                    var numberOfCarnivores = dinosaurs.Count(dinosaur => dinosaur.DietType == "Carnivore");
                     Console.WriteLine();
-                    Console.Write($"There are {numOfHerb} herbivores and {numOfCarn} carnivores in the park.");
+                    Console.Write($"There are {numberOfHerbivores} herbivores and {numberOfCarnivores} carnivores in the park.");
                     Console.WriteLine();
                 }
 
